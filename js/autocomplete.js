@@ -13,6 +13,10 @@ jQuery(function ($) {
     },
 
     debounceTimer: null,
+    lastQueriedCep: {
+      billing: "",
+      shipping: "",
+    },
 
     init() {
       this.bindEvents();
@@ -90,7 +94,13 @@ jQuery(function ($) {
       const $postcodeField = $(`#${section}_postcode`);
       const cep = $postcodeField.val().replace(/\D/g, "");
 
-      if (cep.length !== 8) return;
+      if (cep.length !== 8) {
+        this.lastQueriedCep[section] = "";
+        return;
+      }
+
+      if (this.lastQueriedCep[section] === cep) return;
+      this.lastQueriedCep[section] = cep;
 
       this.showLoading();
       $postcodeField.blur();
@@ -113,6 +123,7 @@ jQuery(function ($) {
           if (applyToBoth) {
             const other =
               section === "billing" ? "shipping" : "billing";
+            this.lastQueriedCep[other] = cep;
             this.populateFields(other, response.data);
           }
         })
