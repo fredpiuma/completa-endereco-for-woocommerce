@@ -1,10 +1,10 @@
-# ⚡ AutoCEP - WooCommerce Autocomplete Address
+# ⚡ Completa Endereço - WooCommerce Autocomplete Address
 
 [![WordPress](https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white)](#)
 [![WooCommerce](https://img.shields.io/badge/WooCommerce-96588A?style=for-the-badge&logo=woocommerce&logoColor=white)](#)
 [![License](https://img.shields.io/badge/License-GPL_2.0-blue?style=for-the-badge)](#)
 
-O **AutoCEP** é um plugin leve e eficiente para WordPress/WooCommerce que preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele consome a API pública do **ViaCEP** de forma assíncrona, garantindo velocidade e reduzindo a taxa de abandono de carrinho.
+O **Completa Endereço** é um plugin leve e eficiente para WordPress/WooCommerce que preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele consome a API pública do **ViaCEP** de forma assíncrona, garantindo velocidade e reduzindo a taxa de abandono de carrinho.
 
 > [!NOTE]
 > Este projeto é um *fork* aprimorado do plugin original AutoCEP (por Wanderson Cesar - TESW), atualizado e otimizado para utilizar o ViaCEP como fonte de dados primária.

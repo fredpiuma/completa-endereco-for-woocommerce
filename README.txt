@@ -1,4 +1,4 @@
-=== AutoCEP ===
+=== Completa Endereço ===
 Contributors: Frederico de Castro
 Donate link: https://www.fredericodecastro.com.br/links/
 Tags: woocommerce, checkout, cep, endereço, autocomplete
@@ -9,10 +9,10 @@ Stable tag: 1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-O plugin **AutoCEP** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário.
+O plugin **Completa Endereço** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário.
 
 == Descrição ==
-O plugin **AutoCEP** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele utiliza a API ViaCEP para buscar o endereço correspondente e é compatível com vários tipos de checkout, incluindo Fluid Checkout e CartFlows.
+O plugin **Completa Endereço** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele utiliza a API ViaCEP para buscar o endereço correspondente e é compatível com vários tipos de checkout, incluindo Fluid Checkout e CartFlows.
 
 == Funcionalidades ==
 - Preenchimento automático de endereço no checkout com base no CEP digitado.
@@ -57,4 +57,4 @@ GPLv2 ou posterior.
 - **Nome**: Frederico de Castro  
 - **Site**: https://www.fredericodecastro.com.br/links/
 
-Obrigado por usar o plugin **AutoCEP**.
+Obrigado por usar o plugin **Completa Endereço**.
