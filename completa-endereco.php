@@ -7,7 +7,7 @@
 * Requires PHP: 7.0
 * Author: Frederico de Castro
 * Author URI: https://www.fredericodecastro.com.br/links/
-* Text Domain: autocep
+* Text Domain: completa-endereco
 * License: GPL-2.0+
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -54,7 +54,7 @@ add_action('wp_ajax_autocep_get_address', 'autocep_get_address');
 add_action('wp_ajax_nopriv_autocep_get_address', 'autocep_get_address');
 
 function autocep_plugin_action_links($links) {
-    $author_link = '<a href="https://www.fredericodecastro.com.br/links/" target="_blank">' . esc_html__('Visite o Site do Autor', 'autocep') . '</a>';
+    $author_link = '<a href="https://www.fredericodecastro.com.br/links/" target="_blank">' . esc_html__('Visite o Site do Autor', 'completa-endereco') . '</a>';
     array_unshift($links, $author_link);
     return $links;
 }

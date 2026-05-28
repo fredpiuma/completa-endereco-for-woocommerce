@@ -1,4 +1,8 @@
 <?php
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 function autocep_send_result($data, $cep) {
     $result = array(
         'cep' => $cep,
@@ -8,7 +12,6 @@ function autocep_send_result($data, $cep) {
         'uf' => $data['uf'] ?? '',
     );
 
-    error_log('Endereço encontrado: ' . print_r($result, true));
     wp_send_json_success($result);
 }
 ?>

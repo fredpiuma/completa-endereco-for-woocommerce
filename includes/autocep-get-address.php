@@ -1,25 +1,24 @@
 <?php
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 function autocep_get_address() {
     // Sanitização e validação do nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'autocep_nonce')) {
-        error_log('Nonce inválida ou ausente');
         wp_send_json_error('Nonce inválida ou ausente');
     }
 
     // Verificação se o CEP foi informado
     if (!isset($_POST['cep'])) {
-        error_log('CEP não informado');
         wp_send_json_error('CEP não informado');
     }
 
     // Sanitização e validação do CEP
     $cep = sanitize_text_field(wp_unslash($_POST['cep']));
     if (!preg_match('/^[0-9]{8}$/', $cep)) {
-        error_log('CEP inválido: ' . $cep);
         wp_send_json_error('CEP inválido');
     }
-
-    error_log('Buscando endereço para o CEP: ' . $cep);
 
     $is_success = false;
     $data = null;
@@ -43,8 +42,6 @@ function autocep_get_address() {
 
     // 2. Se falhar ou estiver indisponível, tenta a API OpenCEP (Fallback)
     if (!$is_success) {
-        error_log('ViaCEP indisponível ou falhou para o CEP: ' . $cep . '. Tentando fallback com OpenCEP...');
-        
         $response_fallback = wp_remote_get("https://opencep.com/v1/{$cep}.json", array(
             'timeout' => 10
         ));
@@ -71,7 +68,6 @@ function autocep_get_address() {
 
     // Se um dos serviços respondeu, mas indicando que o CEP não existe
     if (isset($data['erro']) && $data['erro'] === true) {
-        error_log('CEP não encontrado em nenhum dos serviços: ' . $cep);
         wp_send_json_error('CEP não encontrado');
     }
 
