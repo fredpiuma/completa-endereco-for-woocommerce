@@ -3,6 +3,8 @@
 * Plugin Name: Completa Endereço
 * Description: Preenche automaticamente o endereço no checkout com base no CEP digitado.
 * Version: 1.6
+* Requires at least: 5.0
+* Requires PHP: 7.0
 * Author: Frederico de Castro
 * Author URI: https://www.fredericodecastro.com.br/links/
 * Text Domain: autocep

@@ -1,7 +1,9 @@
 === Completa Endereço ===
 Contributors: fredpiuma
-Tags: woocommerce, checkout, cep, endereco, autocomplete
+Donate link: https://www.fredericodecastro.com.br/links/
+Tags: woocommerce, checkout, cep, address, autocomplete
 Requires at least: 5.0
+Requires PHP: 7.0
 Tested up to: 6.5
 Stable tag: 1.6
 License: GPLv2 or later
@@ -40,10 +42,30 @@ Este plugin utiliza APIs de terceiros para buscar os dados de endereço:
 2. Ative o plugin através do menu "Plugins" no WordPress.
 3. Pronto! Os campos de endereço serão preenchidos automaticamente na tela de checkout do seu WooCommerce.
 
+== Frequently Asked Questions ==
+
+= O plugin é compatível com checkouts de uma página (one-page checkouts)? =
+Sim, ele é compatível com a maioria dos checkouts personalizados do WooCommerce, incluindo o Fluid Checkout e CartFlows.
+
+= Qual API este plugin utiliza para buscar os CEPs? =
+O plugin busca primariamente na API ViaCEP. Caso ela esteja indisponível, ele automaticamente recorre à API OpenCEP como contingência.
+
+= Por que o endereço não foi preenchido para o meu CEP? =
+Certifique-se de que o CEP inserido é válido e possui exatamente 8 dígitos numéricos. CEPs muito recentes podem levar alguns dias para serem indexados pelas bases do ViaCEP e OpenCEP.
+
+== Upgrade Notice ==
+
+= 1.6 =
+Esta versão migra o serviço para a API ViaCEP com contingência para OpenCEP, e soluciona o travamento por loop infinito em CEPs únicos de cidade. Recomenda-se a atualização imediata.
+
+== Screenshots ==
+
+1. Exemplo de preenchimento automático de endereço em tempo real no checkout do WooCommerce.
+
 == Changelog ==
 
 = 1.6 =
-* Lançamento oficial do fork **Completa Endereço**.
+* Alteração oficial do nome do plugin para **Completa Endereço**.
 * Mudança da API padrão de busca de CEP para ViaCEP.
 * Adicionado sistema de fallback automático para a API OpenCEP em caso de falha de conexão.
 * Correção de loop infinito AJAX em checkouts ao pesquisar por CEP geral de cidade (sem nome de logradouro).
