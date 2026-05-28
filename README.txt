@@ -12,12 +12,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 O plugin **Completa Endereço** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário.
 
 == Descrição ==
-O plugin **Completa Endereço** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele utiliza a API ViaCEP para buscar o endereço correspondente e é compatível com vários tipos de checkout, incluindo Fluid Checkout e CartFlows.
+O plugin **Completa Endereço** preenche automaticamente os campos de endereço no checkout com base no CEP digitado pelo usuário. Ele utiliza a API ViaCEP como serviço primário e conta com fallback automático para a API OpenCEP caso a primeira falhe ou sofra instabilidades. É compatível com vários tipos de checkout, incluindo Fluid Checkout e CartFlows.
 
 == Funcionalidades ==
 - Preenchimento automático de endereço no checkout com base no CEP digitado.
 - Compatível com vários plugins de checkout, como Fluid Checkout e CartFlows.
-- Utiliza a API ViaCEP para obter dados de endereço.
+- Utiliza a API ViaCEP com fallback automático para a API OpenCEP para obter dados de endereço.
 - Fácil de integrar e usar.
 
 == Instalação ==
