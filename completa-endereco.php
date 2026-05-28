@@ -39,13 +39,15 @@ include_once(plugin_dir_path(__FILE__) . 'includes/autocep-result.php');
 include_once(plugin_dir_path(__FILE__) . 'includes/autocep-json-error.php');
 include_once(plugin_dir_path(__FILE__) . 'includes/autocep-remote-get.php');
 
-function autocep_enqueue_scripts() {
-    if (function_exists('is_checkout') && is_checkout()) {
-        wp_enqueue_script('autocep-autocomplete', plugin_dir_url(__FILE__) . 'js/autocomplete.js', array('jquery'), '1.0', true);
-        wp_localize_script('autocep-autocomplete', 'autocep_params', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('autocep_nonce')
-        ));
+if (!function_exists('autocep_enqueue_scripts')) {
+    function autocep_enqueue_scripts() {
+        if (function_exists('is_checkout') && is_checkout()) {
+            wp_enqueue_script('autocep-autocomplete', plugin_dir_url(__FILE__) . 'js/autocomplete.js', array('jquery'), '1.0', true);
+            wp_localize_script('autocep-autocomplete', 'autocep_params', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('autocep_nonce')
+            ));
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'autocep_enqueue_scripts');
@@ -53,10 +55,12 @@ add_action('wp_enqueue_scripts', 'autocep_enqueue_scripts');
 add_action('wp_ajax_autocep_get_address', 'autocep_get_address');
 add_action('wp_ajax_nopriv_autocep_get_address', 'autocep_get_address');
 
-function autocep_plugin_action_links($links) {
-    $author_link = '<a href="https://www.fredericodecastro.com.br/links/" target="_blank">' . esc_html__('Visite o Site do Autor', 'completa-endereco') . '</a>';
-    array_unshift($links, $author_link);
-    return $links;
+if (!function_exists('autocep_plugin_action_links')) {
+    function autocep_plugin_action_links($links) {
+        $author_link = '<a href="https://www.fredericodecastro.com.br/links/" target="_blank">' . esc_html__('Visite o Site do Autor', 'completa-endereco') . '</a>';
+        array_unshift($links, $author_link);
+        return $links;
+    }
 }
 
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'autocep_plugin_action_links');

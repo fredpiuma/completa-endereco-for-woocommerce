@@ -3,75 +3,77 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function autocep_get_address() {
-    // Sanitização e validação do nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'autocep_nonce')) {
-        wp_send_json_error('Nonce inválida ou ausente');
-    }
-
-    // Verificação se o CEP foi informado
-    if (!isset($_POST['cep'])) {
-        wp_send_json_error('CEP não informado');
-    }
-
-    // Sanitização e validação do CEP
-    $cep = sanitize_text_field(wp_unslash($_POST['cep']));
-    if (!preg_match('/^[0-9]{8}$/', $cep)) {
-        wp_send_json_error('CEP inválido');
-    }
-
-    $is_success = false;
-    $data = null;
-    $final_error = null;
-
-    // 1. Tenta buscar na API ViaCEP (Principal)
-    $response = wp_remote_get("https://viacep.com.br/ws/{$cep}/json/", array(
-        'timeout' => 10 // Limite de 10s para não atrasar a resposta em caso de fora do ar
-    ));
-
-    if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
-        include_once(plugin_dir_path(__FILE__) . 'autocep-remote-get.php');
-        $data = autocep_remote_get($response);
-        
-        if ($data && !isset($data['erro'])) {
-            $is_success = true;
+if (!function_exists('autocep_get_address')) {
+    function autocep_get_address() {
+        // Sanitização e validação do nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'autocep_nonce')) {
+            wp_send_json_error('Nonce inválida ou ausente');
         }
-    } else {
-        $final_error = $response;
-    }
 
-    // 2. Se falhar ou estiver indisponível, tenta a API OpenCEP (Fallback)
-    if (!$is_success) {
-        $response_fallback = wp_remote_get("https://opencep.com/v1/{$cep}.json", array(
-            'timeout' => 10
+        // Verificação se o CEP foi informado
+        if (!isset($_POST['cep'])) {
+            wp_send_json_error('CEP não informado');
+        }
+
+        // Sanitização e validação do CEP
+        $cep = sanitize_text_field(wp_unslash($_POST['cep']));
+        if (!preg_match('/^[0-9]{8}$/', $cep)) {
+            wp_send_json_error('CEP inválido');
+        }
+
+        $is_success = false;
+        $data = null;
+        $final_error = null;
+
+        // 1. Tenta buscar na API ViaCEP (Principal)
+        $response = wp_remote_get("https://viacep.com.br/ws/{$cep}/json/", array(
+            'timeout' => 10 // Limite de 10s para não atrasar a resposta em caso de fora do ar
         ));
 
-        if (!is_wp_error($response_fallback) && wp_remote_retrieve_response_code($response_fallback) === 200) {
+        if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
             include_once(plugin_dir_path(__FILE__) . 'autocep-remote-get.php');
-            $data = autocep_remote_get($response_fallback);
+            $data = autocep_remote_get($response);
             
             if ($data && !isset($data['erro'])) {
                 $is_success = true;
             }
         } else {
-            // Caso ambos falhem por erro de rede, armazena o último erro
-            $final_error = is_wp_error($response_fallback) ? $response_fallback : $response;
+            $final_error = $response;
         }
-    }
 
-    // Se ambos os serviços de rede/servidor falharem (sem retorno válido)
-    if (!$is_success && !$data) {
-        $error_to_send = is_wp_error($final_error) ? $final_error : new WP_Error('api_error', 'Ambos os serviços de CEP estão indisponíveis.');
-        include_once(plugin_dir_path(__FILE__) . 'autocep-json-error.php');
-        autocep_json_error($error_to_send);
-    }
+        // 2. Se falhar ou estiver indisponível, tenta a API OpenCEP (Fallback)
+        if (!$is_success) {
+            $response_fallback = wp_remote_get("https://opencep.com/v1/{$cep}.json", array(
+                'timeout' => 10
+            ));
 
-    // Se um dos serviços respondeu, mas indicando que o CEP não existe
-    if (isset($data['erro']) && $data['erro'] === true) {
-        wp_send_json_error('CEP não encontrado');
-    }
+            if (!is_wp_error($response_fallback) && wp_remote_retrieve_response_code($response_fallback) === 200) {
+                include_once(plugin_dir_path(__FILE__) . 'autocep-remote-get.php');
+                $data = autocep_remote_get($response_fallback);
+                
+                if ($data && !isset($data['erro'])) {
+                    $is_success = true;
+                }
+            } else {
+                // Caso ambos falhem por erro de rede, armazena o último erro
+                $final_error = is_wp_error($response_fallback) ? $response_fallback : $response;
+            }
+        }
 
-    include_once(plugin_dir_path(__FILE__) . 'autocep-result.php');
-    autocep_send_result($data, $cep);
+        // Se ambos os serviços de rede/servidor falharem (sem retorno válido)
+        if (!$is_success && !$data) {
+            $error_to_send = is_wp_error($final_error) ? $final_error : new WP_Error('api_error', 'Ambos os serviços de CEP estão indisponíveis.');
+            include_once(plugin_dir_path(__FILE__) . 'autocep-json-error.php');
+            autocep_json_error($error_to_send);
+        }
+
+        // Se um dos serviços respondeu, mas indicando que o CEP não existe
+        if (isset($data['erro']) && $data['erro'] === true) {
+            wp_send_json_error('CEP não encontrado');
+        }
+
+        include_once(plugin_dir_path(__FILE__) . 'autocep-result.php');
+        autocep_send_result($data, $cep);
+    }
 }
 ?>
